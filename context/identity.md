@@ -15,7 +15,7 @@ source: self-reported
 
 ## Preferences
 
-- Keep this file concise and provider-neutral.
+- Prefer concise, provider-neutral identity summaries that can be reused across career tasks.
 
 ## Constraints
 

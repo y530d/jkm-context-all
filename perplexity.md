@@ -22,5 +22,5 @@ Read, as relevant:
 - Distinguish verified facts from assumptions.
 - Never invent achievements, dates, metrics, or qualifications.
 - Flag information that appears stale or contradictory.
-- Do not use `sources/` unless primary material is required.
+- Do not read `sources/` unless the task requires primary material.
 - Put generated drafts in `outputs/`.
