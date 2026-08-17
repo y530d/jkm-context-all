@@ -3,6 +3,19 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 output_file="$repo_root/outputs/perplexity-context.md"
+source_files=(
+  "$repo_root/perplexity.md"
+  "$repo_root/context/current-state.md"
+  "$repo_root/context/preferences.md"
+  "$repo_root/goals/current.md"
+)
+
+for file in "${source_files[@]}"; do
+  [ -f "$file" ] || {
+    echo "Missing source file: $file" >&2
+    exit 1
+  }
+done
 
 mkdir -p "$(dirname "$output_file")"
 
@@ -13,16 +26,7 @@ This file is generated from canonical repository content for use in a Perplexity
 
 EOF
 
-for file in \
-  "$repo_root/perplexity.md" \
-  "$repo_root/context/current-state.md" \
-  "$repo_root/context/preferences.md" \
-  "$repo_root/goals/current.md"
-do
-  [ -f "$file" ] || {
-    echo "Missing source file: $file" >&2
-    exit 1
-  }
+for file in "${source_files[@]}"; do
   printf '\n---\n\n## Source: %s\n\n' "${file#"$repo_root"/}" >> "$output_file"
   cat "$file" >> "$output_file"
   printf '\n' >> "$output_file"

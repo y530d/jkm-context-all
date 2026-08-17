@@ -7,13 +7,14 @@ python3 - "$repo_root" "$@" <<'PY'
 from __future__ import annotations
 
 import datetime as dt
+import os
 import pathlib
 import re
 import sys
 
 repo_root = pathlib.Path(sys.argv[1])
 today = dt.date.today()
-threshold_days = 90
+threshold_days = int(os.environ.get("STALE_CONTEXT_DAYS", "90"))
 pattern = re.compile(r"^last_verified:\s*(\d{4}-\d{2}-\d{2})\s*$", re.MULTILINE)
 raw_targets = sys.argv[2:] or ["context", "goals", "projects", "knowledge"]
 targets = [repo_root / target for target in raw_targets]
