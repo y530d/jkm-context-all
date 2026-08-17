@@ -1,6 +1,6 @@
 # career-context
 
-This repository implements a provider-neutral career context structure with thin adapters for OpenAI/Codex, Claude, Gemini, and Perplexity.
+This repository implements a provider-neutral career context structure with thin adapters for AGENTS.md-compatible agents, Claude, Gemini, and Perplexity.
 
 ## Design principle
 

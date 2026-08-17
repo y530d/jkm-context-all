@@ -10,7 +10,7 @@ source: self-reported
 
 ## Facts
 
-- This file records role, industry, and working-preference facts when they are confirmed.
+- This file is the canonical source for confirmed role, industry, and work-style preferences within the career context.
 
 ## Preferences
 
