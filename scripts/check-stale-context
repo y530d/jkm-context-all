@@ -15,9 +15,18 @@ repo_root = pathlib.Path(sys.argv[1])
 today = dt.date.today()
 threshold_days = 90
 pattern = re.compile(r"^last_verified:\s*(\d{4}-\d{2}-\d{2})\s*$", re.MULTILINE)
+raw_targets = sys.argv[2:] or ["context", "goals", "projects", "knowledge"]
+targets = [repo_root / target for target in raw_targets]
 
 issues: list[str] = []
-for path in sorted((repo_root / "context").glob("*.md")):
+paths: list[pathlib.Path] = []
+for target in targets:
+    if target.is_file() and target.suffix == ".md":
+        paths.append(target)
+    elif target.is_dir():
+        paths.extend(sorted(target.rglob("*.md")))
+
+for path in sorted(set(paths)):
     text = path.read_text(encoding="utf-8")
     match = pattern.search(text)
     rel = path.relative_to(repo_root)
@@ -35,5 +44,5 @@ if issues:
         print(issue)
     sys.exit(1)
 
-print("All context/*.md files have a last_verified date within 90 days.")
+print(f"All checked Markdown files have a last_verified date within {threshold_days} days.")
 PY

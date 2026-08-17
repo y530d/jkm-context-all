@@ -19,7 +19,7 @@ for file in \
   "$repo_root/context/preferences.md" \
   "$repo_root/goals/current.md"
 do
-  printf '\n---\n\n## Source: %s\n\n' "${file#$repo_root/}" >> "$output_file"
+  printf '\n---\n\n## Source: %s\n\n' "${file#"$repo_root"/}" >> "$output_file"
   cat "$file" >> "$output_file"
   printf '\n' >> "$output_file"
 done
