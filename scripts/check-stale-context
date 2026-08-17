@@ -5,6 +5,9 @@ set -euo pipefail
 #   ./scripts/check-stale-context [path ...]
 # Optional:
 #   STALE_CONTEXT_DAYS=120 ./scripts/check-stale-context
+# Defaults:
+#   Scans context/, goals/, projects/, and knowledge/.
+#   Excludes templates/, sources/, outputs/, and archive/ unless passed explicitly.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
@@ -52,6 +55,9 @@ for path in sorted(seen_paths):
         continue
     verified = dt.date.fromisoformat(match.group(1))
     age_days = (today - verified).days
+    if age_days < 0:
+        issues.append(f"FUTURE   {rel} ({verified.isoformat()})")
+        continue
     if age_days > threshold_days:
         issues.append(f"STALE    {rel} ({age_days} days old)")
 

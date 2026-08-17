@@ -19,6 +19,7 @@ for file in "${source_files[@]}"; do
 done
 
 mkdir -p "$(dirname "$output_file")"
+trap 'rm -f "$output_file"' ERR
 
 cat > "$output_file" <<'EOF'
 # Perplexity context bundle
@@ -36,3 +37,4 @@ for file in "${source_files[@]}"; do
 done
 
 echo "Wrote $output_file"
+trap - ERR
