@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Build a Perplexity-specific context bundle from the canonical Markdown files."

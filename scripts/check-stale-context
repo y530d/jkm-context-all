@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "Check canonical Markdown files for stale last_verified metadata."
