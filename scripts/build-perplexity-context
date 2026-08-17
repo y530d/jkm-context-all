@@ -1,4 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Build a Perplexity-specific context bundle from the canonical Markdown files."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+output_file="$repo_root/outputs/perplexity-context.md"
+
+mkdir -p "$(dirname "$output_file")"
+
+cat > "$output_file" <<'EOF'
+# Perplexity context bundle
+
+This file is generated from canonical repository content for use in a Perplexity Project.
+
+EOF
+
+for file in \
+  "$repo_root/perplexity.md" \
+  "$repo_root/context/current-state.md" \
+  "$repo_root/context/preferences.md" \
+  "$repo_root/goals/current.md"
+do
+  printf '\n---\n\n## Source: %s\n\n' "${file#$repo_root/}" >> "$output_file"
+  cat "$file" >> "$output_file"
+  printf '\n' >> "$output_file"
+done
+
+echo "Wrote $output_file"

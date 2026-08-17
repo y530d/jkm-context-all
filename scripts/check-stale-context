@@ -1,4 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Check canonical Markdown files for stale last_verified metadata."
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+python3 - "$repo_root" <<'PY'
+from __future__ import annotations
+
+import datetime as dt
+import pathlib
+import re
+import sys
+
+repo_root = pathlib.Path(sys.argv[1])
+today = dt.date.today()
+threshold_days = 90
+pattern = re.compile(r"^last_verified:\s*(\d{4}-\d{2}-\d{2})\s*$", re.MULTILINE)
+
+issues: list[str] = []
+for path in sorted((repo_root / "context").glob("*.md")):
+    text = path.read_text(encoding="utf-8")
+    match = pattern.search(text)
+    rel = path.relative_to(repo_root)
+    if not match:
+        issues.append(f"MISSING  {rel}")
+        continue
+    verified = dt.date.fromisoformat(match.group(1))
+    age_days = (today - verified).days
+    if age_days > threshold_days:
+        issues.append(f"STALE    {rel} ({age_days} days old)")
+
+if issues:
+    print("Stale-context review found issues:")
+    for issue in issues:
+        print(issue)
+    sys.exit(1)
+
+print("All context/*.md files have a last_verified date within 90 days.")
+PY

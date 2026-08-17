@@ -12,7 +12,7 @@ source: self-reported
 
 - This file is the canonical source for confirmed role, industry, and work-style preferences within the career context.
 
-## Preferences
+## Confirmed preferences
 
 - Prefer senior engineering leadership roles.
 - Interested in distributed systems and platform transformation.
