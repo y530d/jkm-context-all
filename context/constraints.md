@@ -17,7 +17,7 @@ expires: 2026-11-17
 
 - State constraints precisely and keep them current.
 
-## Constraints
+## Boundaries
 
 - Do not store identity-document numbers, medical records, or raw financial statements.
 

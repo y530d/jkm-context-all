@@ -19,6 +19,10 @@ for file in \
   "$repo_root/context/preferences.md" \
   "$repo_root/goals/current.md"
 do
+  [ -f "$file" ] || {
+    echo "Missing source file: $file" >&2
+    exit 1
+  }
   printf '\n---\n\n## Source: %s\n\n' "${file#"$repo_root"/}" >> "$output_file"
   cat "$file" >> "$output_file"
   printf '\n' >> "$output_file"
