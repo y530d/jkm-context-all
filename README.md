@@ -56,6 +56,12 @@ Provider files should stay short and route models to the relevant canonical file
 - Give each AI access only to the repository or subfolder needed for the task.
 - Review stale context quarterly using `last_verified` metadata.
 
+## Helper scripts
+
+- `scripts/build-perplexity-context` generates `outputs/perplexity-context.md` from selected canonical files.
+- `scripts/check-stale-context` checks canonical Markdown files for missing or stale `last_verified` metadata.
+- Set `STALE_CONTEXT_DAYS` to override the default 90-day stale threshold when needed.
+
 ## Notes on repository scope
 
 - `personal-context` should contain personal life context such as family, health, finances, housing, and personal goals.
