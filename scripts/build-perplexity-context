@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+output_file="$repo_root/outputs/perplexity-context.md"
+generated_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+source_files=(
+  "$repo_root/perplexity.md"
+  "$repo_root/context/current-state.md"
+  "$repo_root/context/preferences.md"
+  "$repo_root/goals/current.md"
+)
+
+for file in "${source_files[@]}"; do
+  [ -f "$file" ] || {
+    echo "Missing source file: $file" >&2
+    exit 1
+  }
+done
+
+mkdir -p "$(dirname "$output_file")"
+trap 'rm -f "$output_file"' ERR
+
+cat > "$output_file" <<'EOF'
+# Perplexity context bundle
+
+This file is generated from canonical repository content for use in a Perplexity Project.
+
+EOF
+
+printf '_generated: %s_\n' "$generated_at" >> "$output_file"
+
+for file in "${source_files[@]}"; do
+  printf '\n---\n\n## Source: %s\n\n' "${file#"$repo_root"/}" >> "$output_file"
+  cat "$file" >> "$output_file"
+  printf '\n' >> "$output_file"
+done
+
+echo "Wrote $output_file"
+trap - ERR
